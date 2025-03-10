@@ -638,14 +638,14 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
                       _buildFloorTile(2, selectedColor),
                       _buildFloorTile(3, selectedColor),
                       const Divider(),
-                      ListTile(
-                        leading: const Icon(Icons.help_outline),
-                        title: const Text('How to Play'),
-                        onTap: () {
-                          Navigator.pop(context);
-                          //_showHowToPlayDialog();
-                        },
-                      ),
+                      // ListTile(
+                      //   leading: const Icon(Icons.help_outline),
+                      //   title: const Text('How to Play'),
+                      //   onTap: () {
+                      //     Navigator.pop(context);
+                      //     //_showHowToPlayDialog();
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
