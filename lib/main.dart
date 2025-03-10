@@ -83,13 +83,13 @@ class _FloorPageState extends State<FloorPage> {
             'position': const Offset(0.39, 0.25), 
             'question': 'What is the nickname of the person on the plaque near this door?', 
             'keyword': 'pepper', 
-            'image': 'assets/floor2/2348-plaque.jpg'
+            'image': 'assets/floor2/2348-namePlaque.jpg'
           },
           '2367': {
             'position': const Offset(0.15, 0.22), 
             'question': 'What does the bright orange sticker on this door say?', 
             'keyword': 'biohazard', 
-            'image': 'assets/floor2/2367-sticker.jpg'
+            'image': 'assets/floor2/2367-biohazard.jpg'
           },
           '2254': {
             'position': const Offset(0.15, 0.5), 
@@ -101,19 +101,19 @@ class _FloorPageState extends State<FloorPage> {
             'position': const Offset(0.72, 0.42), 
             'question': 'What is on the highest shelf in the left wall of the lobby in this room?', 
             'keyword': 'helmets', 
-            'image': 'assets/floor2/2228-shelf.jpg'
+            'image': 'assets/floor2/2228-helmets.jpg'
           },
           '2132': {
             'position': const Offset(0.54, 0.88), 
             'question': 'What is the nickname of the man whose plaque is next to this room?', 
             'keyword': 'dub', 
-            'image': 'assets/floor2/2132-plaque.jpg'
+            'image': 'assets/floor2/2132-dubNamePlaque.jpg'
           },
           'Across from 2136': {
             'position': const Offset(0.45, 0.85), 
             'question': 'What is the name of the leftmost robot in the display case?', 
             'keyword': 'mike wazowski', 
-            'image': 'assets/floor2/2136-robot.jpg'
+            'image': 'assets/floor2/across2136-bot.jpg'
           },
         };
         break;
