@@ -59,9 +59,33 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/floor1.jpg
-    - assets/floor2.jpg
-    - assets/floor3.jpg
+    - assets/floor1/floor1.jpg
+    - assets/floor2/floor2.jpg
+    - assets/floor3/floor3.jpg
+    
+    # Floor 1 locations
+    - assets/floor1/1108-availabilityDevice.jpg
+    - assets/floor1/1269-chevron.jpg
+    - assets/floor1/1344-sticker.jpg
+    - assets/floor1/atrium-banner.jpg
+    - assets/floor1/1355-cautionSign.jpg
+    - assets/floor1/stairs.jpg
+    
+    # Floor 2 locations
+    - assets/floor2/2348-namePlaque.jpg
+    - assets/floor2/2367-biohazard.jpg
+    - assets/floor2/2254-outlet.jpg
+    - assets/floor2/2228-helmets.jpg
+    - assets/floor2/2132-dubNamePlaque.jpg
+    - assets/floor2/across2136-bot.jpg
+    
+    # Floor 3 locations
+    - assets/floor3/across3122-alliance.jpg
+    - assets/floor3/3107-deanSuite.jpg
+    - assets/floor3/3261-car.jpg
+    - assets/floor3/3270-CSC.jpg
+    - assets/floor3/3316H-BrianBriggs.jpg
+    - assets/floor3/exitStairs-pipes.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
