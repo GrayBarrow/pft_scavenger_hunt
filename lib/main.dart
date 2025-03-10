@@ -448,15 +448,15 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
             ),
           ),
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.info_outline),
-            tooltip: 'Floor Info',
-            onPressed: () {
-              //_showFloorInfo();
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.info_outline),
+        //     tooltip: 'Floor Info',
+        //     onPressed: () {
+        //       //_showFloorInfo();
+        //     },
+        //   ),
+        // ],
       ),
       drawer: _buildStylishDrawer(),
       body: FadeTransition(
