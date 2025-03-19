@@ -133,7 +133,6 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
   }
 
   void _initializeLocationData() {
-    // Create location data based on the current floor
     switch (widget.floorNumber) {
       case 1:
         _locationData = {
@@ -266,22 +265,26 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
     );
   }
 
+  //CHANGE: modify this so it shows image success before all success
   void _checkKeyword(String keyword, String location) {
     if (keyword.trim().toLowerCase() == _locationData[location]!['keyword'].toLowerCase()) {
       setState(() {
         _foundLocations[location] = true;
       });
+      _showSuccessPopupWithImage('You found $location!', _locationData[location]!['image']);
 
       if (_foundLocations.values.every((found) => found)) {
         _showSuccessPopup('You found all the locations on Floor ${widget.floorNumber}!');
-      } else {
-        _showSuccessPopupWithImage('You found $location!', _locationData[location]!['image']);
-      }
+      } 
+      // else {
+      //   _showSuccessPopupWithImage('You found $location!', _locationData[location]!['image']);
+      // }
     } else {
       _showErrorPopup('Incorrect answer. Try again.');
     }
   }
 
+  //shows for when you get all locations on floor
   void _showSuccessPopup(String message) {
     showDialog(
       context: context,
@@ -301,16 +304,6 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
             const SizedBox(height: 10),
             Text(message, style: Theme.of(context).textTheme.bodyLarge),
             const SizedBox(height: 20),
-            Container(
-              height: 10,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.green, Colors.blue],
-                ),
-                borderRadius: BorderRadius.circular(5),
-              ),
-            ),
           ],
         ),
         actions: [
@@ -323,13 +316,12 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
           ),
         ],
         elevation: 5,
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? Colors.grey.shade800
-            : Colors.white,
+        backgroundColor: Theme.of(context).brightness == Brightness.dark ? Colors.grey.shade800 : Colors.white,
       ),
     );
   }
 
+  //shows when you get a location question right
   void _showSuccessPopupWithImage(String message, String imagePath) {
     showDialog(
       context: context,
@@ -448,17 +440,9 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
             ),
           ),
         ),
-        // actions: [
-        //   IconButton(
-        //     icon: const Icon(Icons.info_outline),
-        //     tooltip: 'Floor Info',
-        //     onPressed: () {
-        //       //_showFloorInfo();
-        //     },
-        //   ),
-        // ],
       ),
       drawer: _buildStylishDrawer(),
+      //understand FadeTransition
       body: FadeTransition(
         opacity: _animation,
         child: LayoutBuilder(
@@ -478,18 +462,21 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
             double yOffset = (constraints.maxHeight - imageHeight) / 2;
 
             return Container(
+              //the background
               decoration: BoxDecoration(
                 gradient: LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Theme.of(context).colorScheme.primary.withOpacity(0.1),
-                    Theme.of(context).colorScheme.background,
+                    Theme.of(context).colorScheme.primary.withValues(alpha: 0.1),
+                    Theme.of(context).colorScheme.surface,
                   ],
                 ),
               ),
+              //map and everything else
               child: Stack(
                 children: [
+                  //map
                   Center(
                     child: Container(
                       width: imageWidth,
@@ -497,7 +484,7 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
                       decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.2),
+                            color: Colors.black.withValues(alpha: 0.2),
                             blurRadius: 15,
                             offset: const Offset(0, 5),
                           ),
@@ -513,10 +500,14 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
                       ),
                     ),
                   ),
+                  //location markers
                   for (var entry in _locationData.entries)
                     Positioned(
+                      //these say where they should be on screen
                       left: xOffset + entry.value['position'].dx * imageWidth,
                       top: yOffset + entry.value['position'].dy * imageHeight,
+                      //understand tweenAnimationBuilder
+                      //I think this is what scales with the screen
                       child: TweenAnimationBuilder<double>(
                         tween: Tween<double>(begin: 0.0, end: 1.0),
                         duration: const Duration(milliseconds: 400),
@@ -526,35 +517,32 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
                             child: child,
                           );
                         },
+                        //creates widget that does something when tapped
                         child: GestureDetector(
                           onTap: () => _showKeywordDialog(entry.key),
                           child: Container(
                             width: 12 * scaleFactor,
                             height: 12 * scaleFactor,
+                            //circe icon with white border and shadow
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: _foundLocations[entry.key]!
-                                  ? Colors.green.withOpacity(0.9)
-                                  : Colors.red.withOpacity(0.9),
+                              color: _foundLocations[entry.key]! ? Colors.green.withValues(alpha: 0.9) : Colors.red.withValues(alpha: 0.9),
                               border: Border.all(
                                 color: Colors.white,
                                 width: 2.0,
                               ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: _foundLocations[entry.key]!
-                                      ? Colors.green.withOpacity(0.5)
-                                      : Colors.red.withOpacity(0.5),
+                                  color: _foundLocations[entry.key]! ? Colors.green.withValues(alpha: 0.5) : Colors.red.withValues(alpha: 0.5),
                                   blurRadius: 6 * scaleFactor,
                                   spreadRadius: 2 * scaleFactor,
                                 ),
                               ],
                             ),
+                            //white icon inside circle
                             child: Center(
                               child: Icon(
-                                _foundLocations[entry.key]!
-                                    ? Icons.check
-                                    : Icons.question_mark,
+                                _foundLocations[entry.key]! ? Icons.check : Icons.question_mark,
                                 color: Colors.white,
                                 size: 8 * scaleFactor,
                               ),
@@ -569,6 +557,7 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
           },
         ),
       ),
+      //check progress button
       floatingActionButton: ScaleTransition(
         scale: _animation,
         child: FloatingActionButton.extended(
@@ -581,9 +570,11 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
           elevation: 4,
         ),
       ),
+      
     );
   }
 
+  //sidebar for navigating floors
   Widget _buildStylishDrawer() {
     Color selectedColor = Theme.of(context).brightness == Brightness.dark
         ? Colors.blue.shade700
@@ -638,14 +629,6 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
                       _buildFloorTile(2, selectedColor),
                       _buildFloorTile(3, selectedColor),
                       const Divider(),
-                      // ListTile(
-                      //   leading: const Icon(Icons.help_outline),
-                      //   title: const Text('How to Play'),
-                      //   onTap: () {
-                      //     Navigator.pop(context);
-                      //     //_showHowToPlayDialog();
-                      //   },
-                      // ),
                     ],
                   ),
                 ),
@@ -657,31 +640,26 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
     );
   }
 
+  //each button floor
   Widget _buildFloorTile(int floor, Color selectedColor) {
-    bool isSelected = widget.floorNumber == floor;
+    bool isSelected = (widget.floorNumber == floor);
     return Container(
       decoration: BoxDecoration(
         color: isSelected ? selectedColor : Colors.transparent,
         borderRadius: BorderRadius.circular(8),
-        border: isSelected
-            ? Border.all(color: Theme.of(context).primaryColor, width: 2)
-            : null,
+        border: isSelected ? Border.all(color: Theme.of(context).primaryColor, width: 2) : null,
       ),
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: ListTile(
         leading: Icon(
           Icons.location_on,
-          color: isSelected
-              ? Theme.of(context).primaryColor
-              : null,
+          color: isSelected ? Theme.of(context).primaryColor : null,
         ),
         title: Text(
           'Floor $floor',
           style: TextStyle(
             fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-            color: isSelected
-                ? Theme.of(context).primaryColor
-                : null,
+            color: isSelected ? Theme.of(context).primaryColor : null,
           ),
         ),
         trailing: isSelected ? Icon(Icons.check_circle) : null,
@@ -690,6 +668,9 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
           if (widget.floorNumber != floor) {
             Navigator.pushReplacement(
               context,
+              //try and understand this
+              //it seems PageRouteBuilder has two parameters:
+              //first is what page to build, required, is a function with animation
               PageRouteBuilder(
                 pageBuilder: (context, animation, secondaryAnimation) => FloorPage(floor),
                 transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -710,6 +691,7 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
     );
   }
 
+  //
   void _showKeywordDialog(String location) {
     final TextEditingController controller = TextEditingController();
     showDialog(
@@ -803,36 +785,6 @@ class _FloorPageState extends State<FloorPage> with SingleTickerProviderStateMix
             Text(
               'Floor ${widget.floorNumber} Progress',
               style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 8),
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                // Container(
-                //   height: 10,
-                //   width: double.infinity,
-                //   decoration: BoxDecoration(
-                //     color: Colors.grey.shade300,
-                //     borderRadius: BorderRadius.circular(5),
-                //   ),
-                // ),
-                // Align(
-                //   alignment: Alignment.centerLeft,
-                //   child: Container(
-                //     height: 10,
-                //     width: (found / total) * 230, // Adjust width based on progress
-                //     decoration: BoxDecoration(
-                //       gradient: LinearGradient(
-                //         colors: [
-                //           Theme.of(context).colorScheme.primary,
-                //           Theme.of(context).colorScheme.secondary,
-                //         ],
-                //       ),
-                //       borderRadius: BorderRadius.circular(5),
-                //     ),
-                //   ),
-                // ),
-              ],
             ),
             const SizedBox(height: 8),
             Text(
